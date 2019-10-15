@@ -1,5 +1,6 @@
 from . import db
 import datetime
+from marshmallow import fields, Schema
 
 class ClientModel(db.Model):
   """
@@ -11,14 +12,16 @@ class ClientModel(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(128), nullable=False)
   fone = db.Column(db.Integer, nullable=False)
+  owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   created_at = db.Column(db.DateTime)
   modified_at = db.Column(db.DateTime)
 
   def __init__(self, data):
     self.name = data.get('name')
     self.fone = data.get('fone')
-    self.created_at = datetime.datetime.utcnow()
-    self.modified_at = datetime.datetime.utcnow()
+    self.owner_id = data.get('owner_id')
+    self.created_at = datetime.datetime.now()
+    self.modified_at = datetime.datetime.now()
 
   def save(self):
     db.session.add(self)
@@ -44,3 +47,14 @@ class ClientModel(db.Model):
 
   def __repr__(self):
     return '<id {}>'.format(self.id)
+
+class ClientSchema(Schema):
+  """
+  Client Schema
+  """
+  id = fields.Int(dump_only=True)
+  name = fields.Str(required=True)
+  fone = fields.Str(required=True)
+  owner_id = fields.Int(required=True)
+  created_at = fields.DateTime(dump_only=True)
+  modified_at = fields.DateTime(dump_only=True)
