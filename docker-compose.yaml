@@ -1,0 +1,23 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:latest
+        container_name: mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: admin1234
+            MYSQL_DATABASE: pi
+        ports:
+            - 3031:3306
+        volumes:
+            - ./data/db   
+    flask:
+        build: .
+        ports:
+            - 5000:5000
+        links:
+            - mysql
+        container_name: flask
+        restart: always
+        volumes:
+            - ./usr/src/app
