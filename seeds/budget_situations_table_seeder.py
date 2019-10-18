@@ -11,6 +11,9 @@ class BudgetSituationsTableSeeder(Seeder):
             'description': 'aberto'
         })
         self.db.table('budget_situations').insert({
+            'description': 'aguardando aprovação'
+        })
+        self.db.table('budget_situations').insert({
             'description': 'aprovado'
         })
         self.db.table('budget_situations').insert({

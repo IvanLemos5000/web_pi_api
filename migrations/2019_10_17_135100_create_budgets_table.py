@@ -9,7 +9,7 @@ class CreateBudgetsTable(Migration):
         """
         with self.schema.create('budgets') as table:
             table.increments('id')
-            table.float('amount')
+            table.float('amount').nullable()
             table.date('execution_date').nullable()
             table.date('payment_date').nullable()
             table.integer('client').unsigned()
